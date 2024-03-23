@@ -1,7 +1,5 @@
 package Modelo;
 
-import com.sun.source.tree.BreakTree;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -11,14 +9,14 @@ public class Tarea {
     private String texto;
 
     private Calendar fechaInicio;
-    private Calendar fechaVenc;
+    private Calendar FechaVencimiento;
     private int vencimiento; //en dias
 
 
     //constructores
     public Tarea() {
         setFechaInicio(Calendar.getInstance());
-        setFechaVenc(Calendar.getInstance());
+        setFechaVencimiento(Calendar.getInstance());
         setImportancia(0);
         setVencimiento(0);
         setTexto("Sin texto");
@@ -29,7 +27,7 @@ public class Tarea {
         setImportancia(pImportancia);
         setTexto(pTexto);
         setFechaInicio(pFechaInicio);
-        setFechaVenc(pfechaVenc);
+        setFechaVencimiento(pfechaVenc);
     }
 
 
@@ -47,13 +45,23 @@ public class Tarea {
         return texto;
     }
 
-
     public Calendar getFechaInicio() {
         return fechaInicio;
     }
 
-    private Calendar getFechaVenc() {
-        return fechaVenc;
+
+    public String getFechaDeVencimientoFormateado()///me muestra la fecha con el vencimiento nuevo
+    {
+        SimpleDateFormat fechita = new SimpleDateFormat("dd/MM/yyyy"); // le da el formato a la fecha
+        return fechita.format(FechaVencimiento.getTime());
+    }
+    public String getFechaInicioFormateado() {
+        SimpleDateFormat fechita = new SimpleDateFormat("dd/MM/yyyy"); // le da el formato a la fecha
+        return fechita.format(fechaInicio.getTime());
+    }
+
+    private Calendar getFechaVencimiento() {
+        return FechaVencimiento;
     }
 
     public void setImportancia(int pImportancia) {
@@ -64,9 +72,7 @@ public class Tarea {
         this.fechaInicio = pFechaInicio;
     }
 
-    public void setFechaVenc(Calendar pFechaVenc) {
-        this.fechaVenc = pFechaVenc;
-    }
+    public void setFechaVencimiento(Calendar pFechaVenc) { this.FechaVencimiento = pFechaVenc; }
 
     public void setTexto(String pTexto) {
         this.texto = pTexto;
@@ -77,11 +83,15 @@ public class Tarea {
     }
 
     //metodos
-    public String getFechaDeVencimineto()///me muestra la fecha con el vencimiento nuevo
+
+    public Calendar calcularFechaDeVencimiento(Calendar fechaDeVencimiento)
     {
-        SimpleDateFormat fechita = new SimpleDateFormat("dd/MM/yyyy"); // le da el formato a la fecha
-        return fechita.format(fechaVenc.getTime());
+        fechaDeVencimiento.add(Calendar.DATE,this.getVencimiento());//se le suma a la fecha de inicio, los dias que tiene el usuario (osea se calcula la fecha de vencimiento)
+
+        return fechaDeVencimiento;
+
     }
+
 
 
 }
